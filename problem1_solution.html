@@ -1,0 +1,332 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ingredient X Cost Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Calibri, sans-serif;
+    }
+    body {
+      background: #f6f8fb;
+      padding: 20px;
+      color: #333;
+      font-size: 27px;
+      font-weight: bold;
+    }
+    .container {
+        
+      display: flex;
+      justify-content: center;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      gap: 80px;
+    }
+
+    .triangle-diagram {
+      position: relative;
+      width: 240px;
+      height: 140px;
+      margin: 40px auto;
+    }
+
+    .side.ab {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 4px;
+      height: 140px;
+      background: black;
+    }
+
+    .side.bc {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 240px;
+      height: 4px;
+      background: black;
+    }
+
+  .side-ac-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+
+    .label {
+      position: absolute;
+      font-weight: bold;
+      background: white;
+      padding: 2px 6px;
+      border-radius: 6px;
+            box-shadow: 3px 3px 4px rgba(181, 181, 181, 1.5);
+            color: black;
+
+    }
+
+    .point-a {
+      top: -20px;
+      left: -15px;
+      background-color: #ED8392;
+
+    }
+
+    .point-b {
+      bottom: -25px;
+      left: -15px;
+      background-color: #7BC3EC;
+    }
+
+    .point-c {
+      bottom: -25px;
+      right: -15px;
+      background-color: #B7F3F0;
+    }
+
+    .dimension {
+      position: absolute;
+      background: white;
+      padding: 2px 6px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 3px 3px 4px rgba(181, 181, 181, 1.5);
+
+    }
+
+    .ab-label {
+      left: -40px;
+      top: 45px;
+    background: linear-gradient(to top, #F5FAFF, #3399FF);
+    }
+
+    .bc-label {
+      bottom: -35px;
+      left: 90px;
+      background: linear-gradient(to top, #F9FAD6, #F3DDFF);
+
+    }
+
+    .ac-label {
+      top: 40px;
+      right: 90px;
+      background: linear-gradient(to top, #F3DDFF, #FEB78A);
+    }
+
+    .formula-table {
+      background: #222;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 20px;
+      display: inline-block;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .explanation-box-1 {
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      gap: 20px;
+      align-items: anchor-center;
+    }
+
+    .math-box {
+      border-radius: 12px;
+      padding: 10px 20px;
+      margin: 10px 0;
+      font-weight: bold;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .fraction {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .line-by {
+      width: 40px;
+      height: 3px;
+      background: gray;
+    }
+
+    .linel-by {
+      width: 140px;
+      height: 3px;
+      background: white;
+    }
+
+    .fraction-container {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      gap: 6px;
+    }
+
+    .answer-box {
+        font-size: 30px;
+      background-color: #1BAD83;
+      color: white;
+      padding: 6px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-left: 10px;
+      box-shadow: 3px 3px 4px rgba(181, 181, 181, 1.5);
+    }
+    .formulaBoxUltimate{
+     width: 298px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 10px;
+    }
+    .arrow-img{
+      width: 50px;
+    }
+    
+    .arrow-down {
+      width: 12px;
+      height: 50px;
+      background: #000;
+      margin: 10px auto;
+      position: relative;
+      box-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+      border-radius: 2px;
+    }
+    
+    .arrow-down::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 25px solid #000;
+      box-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+    }
+    
+    .double-arrows {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin: 15px auto;
+      padding: 10px;
+    }
+    
+    .arrow-down.second {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h2><img src="arrow.png" alt="Arrow Icon" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 10px;"> Ingredient X Cost Calculator</h2>
+  </div>
+  
+  <div class="container">
+    <div>
+      <div class="explanation-box-1">
+        <div class="math-box">
+          <span style="background:#ED8392; color:black; padding:4px 8px; border-radius:6px;box-shadow: 3px 3px 4px rgba(181, 181, 181, 1.5);">2,000</span>
+          <span style="background:#B7F3F0; color:black; padding:4px 8px; border-radius:6px;box-shadow: 3px 3px 4px rgba(181, 181, 181, 1.5);">units</span>
+          ÷
+          <span style="background:#7BC3EC; color:black; padding:4px 8px; border-radius:6px;box-shadow: 3px 3px 4px rgba(181, 181, 181, 1.5);">200</span>
+          <span style="background:#B7F3F0; color:black; padding:4px 8px; border-radius:6px;box-shadow: 3px 3px 4px rgba(181, 181, 181, 1.5);">units</span>
+          = 10
+        </div>
+        <div style="border: 2px solid #ccc;border-radius: 10px;background: #F2F2F2;">
+        <div class="math-box">
+          <div>10 × 20 = 200 litres needed</div>
+          <div class="double-arrows">
+            <img src="arrow.png" alt="Next Step" style="width: 50px; height: auto;">
+            <img src="arrow.png" alt="Next Step" style="width: 50px; height: auto;">
+          </div>
+      
+          <div>200 units → 20 litres (given ratio)</div>
+        </div>
+        </div>
+        <div class="fraction-container">
+          <span>Cost = </span>
+          <div class="fraction">
+            <div>200</div>
+            <div class="line-by"></div>
+            <div>litres</div>
+          </div>
+          <span>×</span>
+          <div class="fraction">
+            <div>$10</div>
+            <div class="line-by"></div>
+            <div>litre</div>
+          </div>
+          
+        </div>
+        <div class="fraction-container" style="margin-left: 190px;">
+          <span>=</span>
+          <div class="answer-box">$2,000</div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex;flex-direction: column;">
+      <div class="triangle-diagram">
+        <div class="side ab"></div>
+        <div class="side bc"></div>
+
+        <svg class="side-ac-line" width="240" height="140">
+  <!-- Triangle fill -->
+  <polygon points="0,140 0,0 240,140" fill="rgba(173, 216, 230, 0.2)" />
+  <!-- Hypotenuse line (AC) -->
+  <line x1="0" y1="0" x2="240" y2="140" stroke="black" stroke-width="4" />
+</svg>
+
+        <div class="label point-a">2000</div>
+        <div class="label point-b">200</div>
+        <div class="label point-c">20</div>
+        <div class="dimension ab-label">Order Units</div>
+        <div class="dimension bc-label">Base Units</div>
+        <div class="dimension ac-label">Litres Needed</div>
+      </div>
+
+      <div class="formulaBoxUltimate" >
+      <div class="formula-table" style="border-radius: 10px 10px 0px 0px;">
+        <div class="fraction-container">
+          Ingredient X =
+          <div class="fraction">
+            <div>Order Units</div>
+            <div class="linel-by"></div>
+            <div>Base Units</div>
+          </div>
+        </div>
+        </div>
+        <div class="formula-table" style="border-radius: 0px 0px 10px 10px;">
+        <div class="fraction-container">
+          Total Cost =
+          <div class="fraction">
+            <div>Litres × Price</div>
+            <div class="linel-by"></div>
+            <div>Per Litre</div>
+          </div>
+        </div>
+
+      </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
